@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Media Interaktif Informatika XII — Arduino Uno</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header>
+  <div class="eyebrow">Media pembelajaran interaktif • Informatika SMA</div>
+  <h1>Sistem Komputer:<br>Single Board Controller Arduino Uno</h1>
+  <p class="sub">Kenali komponen, pahami input–proses–output, coba simulasi, dan pecahkan masalah melalui pemrograman sederhana.</p>
+</header>
+<div class="wrap">
+<nav aria-label="Navigasi pembelajaran">
+  <button class="active" data-page="home">⌂ Beranda</button>
+  <button data-page="apersepsi">💡 Apersepsi</button>
+  <button data-page="materi">📘 Materi</button>
+  <button data-page="boardpage">🔎 Kenali Arduino</button>
+  <button data-page="simulasi">⚙️ Simulasi</button>
+  <button data-page="lab">⌨️ Laboratorium Kode</button>
+  <button data-page="tantangan">🧠 Tantangan</button>
+  <button data-page="kuis">❓ Kuis Interaktif</button>
+  <button data-page="evaluasi">📝 Evaluasi</button>
+  <button data-page="proyek">🛠️ Proyek Mini</button>
+  <button data-page="refleksi">✍️ Refleksi</button>
+</nav>
+<main>
+<section class="panel active" id="home">
+  <div class="hero-card">
+    <span class="tag">KELAS XII • 2 × 45 MENIT</span>
+    <h2>Selamat datang di Laboratorium Arduino!</h2>
+    <p>Belajar bagaimana sebuah papan mikrokontroler membaca masukan, menjalankan instruksi, lalu mengendalikan keluaran.</p>
+    <label for="studentName">Nama siswa</label><input id="studentName" placeholder="Tuliskan nama Anda">
+    <label for="studentClass">Kelas</label><input id="studentClass" placeholder="Contoh: XII-1">
+    <button class="primary" onclick="startLearning()">Mulai belajar →</button>
+    <p id="welcome" class="muted" aria-live="polite"></p>
+  </div>
+  <h3>Tujuan pembelajaran</h3>
+  <div class="grid">
+    <div class="card">🎯 Menjelaskan sistem komputer dan papan pengendali berbasis mikrokontroler.</div>
+    <div class="card">🔌 Mengidentifikasi komponen serta pin penting Arduino Uno.</div>
+    <div class="card">💻 Membaca program Arduino sederhana dan memahami alurnya.</div>
+    <div class="card">🧩 Membuat rancangan solusi input–proses–output untuk masalah sehari-hari.</div>
+  </div>
+  <h3>Progress belajar</h3><div class="progress"><div id="progressbar"></div></div><p id="progressText" class="muted">0 dari 8 aktivitas ditandai selesai.</p>
+  <p class="muted">Petunjuk: gunakan menu di samping. Coba simulasi, kerjakan kuis, lalu isi refleksi.</p>
+</section>
+
+<section class="panel" id="apersepsi">
+  <h2>Apersepsi: bagaimana alat otomatis bekerja?</h2>
+  <p>Bayangkan lampu teras yang menyala saat lingkungan gelap. Sistem membutuhkan masukan, aturan pemrosesan, dan keluaran.</p>
+  <div class="flow"><button onclick="showFlow('input')">INPUT<br><small>Sensor / tombol</small></button><span class="arrow">→</span><button onclick="showFlow('process')">PROSES<br><small>Arduino menjalankan kode</small></button><span class="arrow">→</span><button onclick="showFlow('output')">OUTPUT<br><small>LED / buzzer</small></button></div>
+  <div class="card" id="flowExplain">Klik salah satu bagian diagram untuk melihat penjelasan.</div>
+  <h3>Pertanyaan pemantik</h3>
+  <p>Menurut Anda, mengapa alat otomatis tetap membutuhkan program?</p>
+  <textarea id="warmup" placeholder="Tuliskan pendapat awal Anda..."></textarea>
+  <button class="primary" onclick="markDone('apersepsi');notify('Jawaban apersepsi tersimpan selama halaman terbuka.')">Simpan jawaban</button>
+</section>
+
+<section class="panel" id="materi">
+  <h2>Materi pembelajaran</h2>
+  <div class="card"><h3>1. Sistem komputer</h3><p>Sistem komputer merupakan kesatuan komponen yang bekerja bersama untuk menerima data, memprosesnya, menyimpan bila diperlukan, dan menghasilkan informasi atau tindakan. Komponen umumnya meliputi <b>hardware</b> (perangkat keras), <b>software</b> (perangkat lunak), dan <b>brainware</b> (manusia/pengguna).</p><p>Dalam sistem kendali: <b>input → proses → output</b>. Contoh: tombol (input), program mikrokontroler (proses), LED (output).</p></div>
+  <div class="card"><h3>2. Single board controller dan mikrokontroler</h3><p>Istilah <i>single board controller</i> biasa digunakan untuk papan pengendali elektronik yang mengintegrasikan mikrokontroler dan rangkaian pendukung pada satu papan. Arduino Uno adalah papan pengembangan berbasis mikrokontroler untuk belajar elektronika dan kendali.</p><p>Jangan menyamakan Arduino Uno dengan komputer umum. Single-board computer seperti Raspberry Pi umumnya menjalankan sistem operasi lengkap, sedangkan Arduino Uno menjalankan program mikrokontroler untuk mengendalikan perangkat.</p></div>
+  <div class="card"><h3>3. Komponen dan pin Arduino Uno R3</h3><ul><li><b>ATmega328P:</b> mikrokontroler utama pada Uno R3 standar.</li><li><b>Pin digital 0–13:</b> membaca atau mengeluarkan sinyal digital; pin 0 dan 1 juga terkait komunikasi serial.</li><li><b>Pin analog A0–A5:</b> membaca tegangan analog melalui ADC.</li><li><b>Pin PWM bertanda ~:</b> menghasilkan sinyal PWM pada pin yang didukung.</li><li><b>5V, 3.3V, GND, VIN:</b> pin catu daya dan referensi ground sesuai kebutuhan rangkaian.</li><li><b>USB:</b> menghubungkan papan ke komputer untuk pemrograman dan komunikasi.</li><li><b>Jack DC, reset, osilator, LED daya:</b> membantu catu daya, memulai ulang, timing, dan indikasi daya.</li></ul><p>LED bawaan pada Uno R3 standar terhubung ke pin digital 13. Detail dapat berbeda pada varian papan lain.</p></div>
+  <div class="card"><h3>4. Struktur program Arduino</h3><p><code>setup()</code> dijalankan sekali saat program mulai atau papan di-reset. <code>loop()</code> dijalankan berulang kali. <code>pinMode()</code> mengatur fungsi pin, <code>digitalWrite()</code> mengatur keluaran digital, <code>digitalRead()</code> membaca input digital, dan <code>delay()</code> memberi jeda dalam milidetik.</p>
+  <pre class="code">const int ledPin = 13;
+
+void setup() {
+  pinMode(ledPin, OUTPUT);
+}
+
+void loop() {
+  digitalWrite(ledPin, HIGH);
+  delay(1000);
+  digitalWrite(ledPin, LOW);
+  delay(1000);
+}</pre><p>Program menyalakan LED selama 1.000 ms (1 detik), mematikannya selama 1 detik, lalu mengulang proses tersebut.</p></div>
+  <button class="primary" onclick="markDone('materi');notify('Materi ditandai selesai.')">Tandai materi selesai</button>
+</section>
+
+<section class="panel" id="boardpage">
+  <h2>Kenali bagian Arduino Uno</h2>
+  <p>Klik label komponen untuk membaca fungsi singkatnya. Ilustrasi ini bersifat skematis untuk pembelajaran, bukan gambar teknik berskala.</p>
+  <div class="board">
+    <div class="board-title">ARDUINO UNO • ILUSTRASI INTERAKTIF</div>
+    <div class="pinrow" id="topPins"></div>
+    <div class="board-mid"><div class="usb">USB<br>PORT</div><div class="chip">ATmega328P<br><small>MIKROKONTROLER</small></div><div><div>LED bawaan <span class="led" id="boardLed"></span></div><div style="margin-top:10px"><button class="pin" onclick="toggleBoardLed()">Uji LED pin 13</button></div></div></div>
+    <div class="pinrow" id="bottomPins"></div>
+    <div style="display:flex;justify-content:space-between;margin-top:14px;font-size:.75rem"><span>RESET • JACK DC</span><span>POWER • ANALOG</span></div>
+  </div>
+  <div class="card" id="pinInfo"><b>Pilih sebuah label</b><p>Informasi komponen akan muncul di sini.</p></div>
+  <button class="primary" onclick="markDone('boardpage')">Selesai mengenali komponen</button>
+</section>
+
+<section class="panel" id="simulasi">
+  <h2>Simulasi interaktif</h2>
+  <div class="card">
+    <h3>Simulasi 1 — LED berkedip</h3><p>Simulasi visual ini meniru perilaku LED pin 13. Tidak mengendalikan papan fisik.</p>
+    <div style="text-align:center;padding:12px"><span class="led" id="blinkLed"></span> <span id="blinkStatus" class="status">LED: MATI</span></div>
+    <label for="interval">Interval per keadaan: <span id="intervalValue">1000</span> ms</label><input type="range" id="interval" min="200" max="2000" step="100" value="1000" oninput="document.getElementById('intervalValue').textContent=this.value;restartBlinkIfRunning()">
+    <div class="no-print"><button class="primary" onclick="startBlink()">▶ Mulai</button> <button class="secondary" onclick="stopBlink()">■ Berhenti</button> <button class="secondary" onclick="resetBlink()">↺ Reset</button></div>
+    <p id="blinkExplain" class="muted">Tekan Mulai untuk menjalankan simulasi.</p>
+  </div>
+  <div class="grid" style="margin-top:14px">
+    <div class="card"><h3>Simulasi 2 — Tombol dan LED</h3><p>Tekan tombol virtual untuk memberikan input.</p><button class="primary" id="virtualButton" onpointerdown="buttonInput(true)" onpointerup="buttonInput(false)" onpointerleave="buttonInput(false)" ontouchstart="buttonInput(true)" ontouchend="buttonInput(false)">Tekan & tahan</button><p>Input: <span id="buttonState" class="status">LOW</span></p><p>LED: <span class="led" id="buttonLed"></span> <span id="buttonLedText">MATI</span></p><p class="muted">Model logika: tombol aktif → input HIGH → LED menyala. Rangkaian nyata perlu pengaturan pull-up/pull-down yang benar.</p></div>
+    <div class="card"><h3>Simulasi 3 — Lampu otomatis</h3><p>Ubah intensitas cahaya virtual.</p><label for="lightSlider">Intensitas cahaya: <span id="lightValue">50</span>/100</label><input id="lightSlider" type="range" min="0" max="100" value="50" oninput="updateLight()"><p>Keadaan: <b id="lightState">Terang</b></p><p>LED: <span id="lightLed" class="led"></span> <b id="lightLedText">MATI</b></p><p class="muted">Aturan model: intensitas di bawah 30 menyalakan LED; nilai 30 atau lebih mematikan LED.</p></div>
+  </div>
+  <button class="primary" style="margin-top:14px" onclick="markDone('simulasi')">Tandai simulasi selesai</button>
+</section>
+
+<section class="panel" id="lab">
+  <h2>Laboratorium kode</h2><p>Ubah kode atau pilih contoh, lalu periksa pola program. Ini bukan compiler C++ dan tidak mengunggah kode ke Arduino.</p>
+  <label for="codeEditor">Editor kode</label>
+  <textarea id="codeEditor" style="font-family:Consolas,monospace;min-height:270px" spellcheck="false">const int ledPin = 13;
+
+void setup() {
+  pinMode(ledPin, OUTPUT);
+}
+
+void loop() {
+  digitalWrite(ledPin, HIGH);
+  delay(1000);
+  digitalWrite(ledPin, LOW);
+  delay(1000);
+}</textarea>
+  <button class="primary" onclick="checkCode()">Periksa kode</button> <button class="secondary" onclick="runCodeDemo()">Jalankan simulasi LED</button> <button class="secondary" onclick="resetCode()">Kembalikan kode awal</button>
+  <div id="codeResult" class="card" style="margin-top:12px" aria-live="polite">Hasil pemeriksaan akan ditampilkan di sini.</div>
+  <p class="muted">Catatan: pemeriksaan menggunakan pola teks sederhana, bukan kompilasi C++ sesungguhnya.</p>
+  <button class="primary" onclick="markDone('lab')">Selesai laboratorium kode</button>
+</section>
+
+<section class="panel" id="tantangan">
+  <h2>Tantangan berpikir komputasional</h2>
+  <div class="card"><h3>Tantangan 1 — Lampu indikator</h3><p>Rancang algoritma agar LED menyala satu detik dan mati satu detik secara berulang.</p><p><b>Input:</b> tidak ada input eksternal. <b>Proses:</b> atur output HIGH/LOW dan jeda. <b>Output:</b> LED berkedip.</p><textarea placeholder="Tuliskan urutan langkah atau pseudocode..."></textarea></div>
+  <div class="card"><h3>Tantangan 2 — Tombol kendali</h3><p>Bagaimana logika program berubah agar LED hanya menyala saat tombol ditekan?</p><textarea placeholder="Tuliskan kondisi dan tindakan yang diperlukan..."></textarea></div>
+  <div class="card"><h3>Tantangan 3 — Peringatan kondisi</h3><p>Rancang sistem yang mengaktifkan buzzer jika sensor mendeteksi kondisi berbahaya.</p><textarea placeholder="Tuliskan input, proses, output, dan aturan keputusannya..."></textarea></div>
+  <button class="primary" onclick="markDone('tantangan');notify('Tantangan ditandai selesai. Jawaban tersimpan selama halaman terbuka.')">Tandai tantangan selesai</button>
+</section>
+
+<section class="panel" id="kuis">
+  <h2>Kuis interaktif</h2><p>Jawab 10 soal berikut. Pilih satu jawaban untuk setiap soal, kemudian periksa hasil.</p>
+  <div id="quizArea"></div><button class="primary" onclick="gradeQuiz()">Periksa jawaban</button> <button class="secondary" onclick="resetQuiz()">Ulangi kuis</button>
+  <div id="quizResult" class="card" style="margin-top:14px" aria-live="polite"></div>
+</section>
+
+<section class="panel" id="evaluasi">
+  <h2>Evaluasi akhir</h2><p>Jawab lima pertanyaan. Empat pertanyaan pilihan ganda dinilai otomatis; jawaban singkat dinilai oleh guru.</p>
+  <div id="evalArea"></div><button class="primary" onclick="gradeEval()">Nilai pilihan ganda</button> <button class="secondary" onclick="window.print()">Cetak evaluasi</button>
+  <div id="evalResult" class="card" style="margin-top:14px" aria-live="polite"></div>
+</section>
+
+<section class="panel" id="proyek">
+  <h2>Proyek mini: Lampu indikator Arduino</h2>
+  <div class="hero-card"><h3>Tujuan</h3><p>Membuat LED berkedip sebagai indikator status dengan memahami rangkaian, kode, dan pengujian.</p></div>
+  <h3>Alat dan bahan</h3><ul><li>Arduino Uno dan kabel USB.</li><li>Breadboard dan kabel jumper.</li><li>LED, resistor pembatas arus yang sesuai (misalnya 220–330 Ω), dan komputer dengan Arduino IDE.</li></ul>
+  <h3>Langkah kerja</h3><ol><li>Pastikan papan tidak terhubung ke sumber daya saat merakit rangkaian eksternal.</li><li>Pasang LED eksternal secara seri dengan resistor; perhatikan polaritas LED.</li><li>Hubungkan rangkaian ke pin digital yang dipilih dan GND.</li><li>Tulis program untuk mengatur pin sebagai OUTPUT dan mengubah keadaan HIGH/LOW.</li><li>Periksa sambungan, unggah program, lalu amati hasilnya.</li><li>Catat hasil pengamatan dan jelaskan penyebab jika LED tidak menyala.</li></ol>
+  <h3>Contoh kode LED eksternal pada pin 8</h3><pre class="code">const int ledPin = 8;
+
+void setup() {
+  pinMode(ledPin, OUTPUT);
+}
+
+void loop() {
+  digitalWrite(ledPin, HIGH);
+  delay(1000);
+  digitalWrite(ledPin, LOW);
+  delay(1000);
+}</pre>
+  <h3>Rubrik penilaian</h3><div class="grid"><div class="card"><b>Ketepatan rangkaian — 30%</b><p>Pin, GND, polaritas, dan resistor terpasang benar.</p></div><div class="card"><b>Program — 30%</b><p>Program benar dan sesuai tujuan.</p></div><div class="card"><b>Pengujian — 20%</b><p>Melakukan uji dan mencatat hasil.</p></div><div class="card"><b>Analisis — 20%</b><p>Menjelaskan cara kerja dan perbaikan.</p></div></div>
+  <label for="projectNote">Catatan hasil proyek</label><textarea id="projectNote" placeholder="Tuliskan hasil uji, kendala, dan perbaikan..."></textarea><button class="primary" onclick="markDone('proyek');notify('Proyek ditandai selesai.')">Tandai proyek selesai</button>
+</section>
+
+<section class="panel" id="refleksi">
+  <h2>Refleksi pembelajaran</h2>
+  <p>Gunakan pertanyaan berikut untuk mengevaluasi proses belajar Anda.</p>
+  <label for="r1">1. Konsep baru apa yang saya pahami?</label><textarea id="r1"></textarea>
+  <label for="r2">2. Komponen Arduino apa yang paling menarik bagi saya?</label><textarea id="r2"></textarea>
+  <label for="r3">3. Kesulitan apa yang saya temui?</label><textarea id="r3"></textarea>
+  <label for="r4">4. Bagaimana Arduino dapat membantu menyelesaikan masalah di sekolah?</label><textarea id="r4"></textarea>
+  <label for="r5">5. Proyek apa yang ingin saya buat berikutnya?</label><textarea id="r5"></textarea>
+  <button class="primary" onclick="copyReflection()">Salin refleksi</button> <button class="secondary" onclick="window.print()">Cetak halaman</button>
+  <p id="reflectionStatus" class="muted" aria-live="polite"></p>
+</section>
+</main>
+</div>
+<footer>Media pembelajaran Informatika SMA Kelas XII • Arduino Uno • Simulasi edukatif offline</footer>
+<script src="script.js" defer></script>
+</body>
+</html>
